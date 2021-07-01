@@ -1,0 +1,63 @@
+{% extends 'admin_layout.html' %}
+{% block content %}
+{% load static %}
+<div class="container p-3"><br>
+    <h2>ADD STUDENTS</h2><br>
+    <form action="/after_add_student/dashboard/" method="POST">
+        {% csrf_token %}
+        <div class="field_wrapper">
+            <p>Maximum of 10 students can be added at a time</p>
+            <div class="hide">
+                <label for="tot_student">TOTAL STUDENTS</label>
+                <input id="totalStudents" type="text" name="tot_student" placeholder="MAX 10 only allowed"><br>
+            </div>
+            <div>
+                <select id="selectedQuiz" name="selectedQuiz"><br>
+                    {% for quiz in val %}
+                        <option  value="{{quiz.id}}">{{quiz.quiz_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="email">Email_Id</label><br>
+                <input type="text" name="field_name0" id="name" value="" required="required"/><br>
+                <a href="javascript:void(0);" class="add_button" title="Add field">Add</a><br>
+            </div>
+        </div>
+        <button class="btn btn-primary">SUBMIT</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        var maxField = 10; //Input fields increment limitation
+        var addButton = $('.add_button'); //Add button selector
+        var wrapper = $('.field_wrapper'); //Input field wrapper
+        var x = 1; //Initial field counter is 1
+        document.getElementById('totalStudents').value = x;
+
+        //Once add button is clicked
+        $(addButton).click(function(){
+            //Check maximum number of input fields
+            if(x < maxField){ 
+                var fieldHTML = '<div><label for="email">Email_Id</label><input type="text" name="field_name'+x+'" id="email'+x+'" value="" required="required"/><a href="javascript:void(0);" class="remove_button">Remove</a></div>';
+                console.log("name"+x);
+                x++; //Increment field counter
+                $(wrapper).append(fieldHTML); //Add field html
+                document.getElementById('totalStudents').value = x;
+            }
+        });
+        
+        //Once remove button is clicked
+        $(wrapper).on('click', '.remove_button', function(e){
+            e.preventDefault();
+            $(this).parent('div').remove(); //Remove field html
+            x--; //Decrement field counter
+        });
+    });
+</script>
+
+
+
+{% endblock %}

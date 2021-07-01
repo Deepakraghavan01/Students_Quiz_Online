@@ -1,0 +1,18 @@
+{% extends 'student_layout.html' %}
+{% block content %}
+{% load static %}
+<div class="container">
+    <h2>QUIZ VIEW</h2>
+    
+    {% for quiz in quiz_list %}
+        <div class="card" style="width:400px">
+          <img class="card-img-top" src="../static/img/quiz.jpg" alt="Card image" style="width:100%">
+          <div class="card-body">
+            <h4 class="card-title">{{quiz.quiz_name}}</h4>
+            <a href="/show_question_for_quiz/?id={{quiz.id}}&student_quiz_id={{quiz.student_quiz_id}}" class="btn btn-primary">START</a>
+          </div>
+        </div>
+    {% endfor %}
+    
+</div>
+{% endblock %}

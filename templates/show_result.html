@@ -1,0 +1,49 @@
+{% extends 'student_layout.html' %}
+{% block content %}
+{% load mathfilters %}
+<head>
+  <style>
+    .test-report p{
+      font-weight: bold;
+    }
+    .test-report p span{
+      font-weight: normal;
+    }
+  </style>
+</head>
+{% load static %}
+<div class="container test-report">
+    <h2>{{quiz_name}}</h2>
+    <h3>Congrats! You have completed the Quiz successfully.</h3>
+    <p>Report:</p>
+    <p>Marks: <span> {{correct_answer_count}} / {{total_questions}}</span></p>
+    <p>Result: <span> {{correct_answer_count | div:total_questions | mul:100}}% </span></p>
+    <p>Test Start: <span id="startTime"></span></p>
+    <p>End Time:<span id="endTime"></span></p>
+
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var start = new Date(Number("{{start_time}}"));
+    var end = new Date(Number("{{end_time}}"));
+    $("#startTime").text(start)
+    $("#endTime").text(end)
+  })
+  function secondsToDhms(seconds) {
+    seconds = Number(seconds);
+    var d = Math.floor(seconds / (3600*24));
+    var h = Math.floor(seconds % (3600*24) / 3600);
+    var m = Math.floor(seconds % 3600 / 60);
+    var s = Math.floor(seconds % 60);
+
+    var dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+    return dDisplay + hDisplay + mDisplay + sDisplay;
+  }
+</script>
+
+{% endblock %}

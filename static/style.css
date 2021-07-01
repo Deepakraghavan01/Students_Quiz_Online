@@ -1,0 +1,47 @@
+.hide{
+  display: none;
+}
+header {
+    background-color: #fcde67;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-size: 35px;
+    color: black;
+  }
+
+h2 {text-align: center;}
+
+.container-xl {
+  height: 100vh;
+  background: url("../static/img/Home_bg.png") top right no-repeat;
+  background-size: cover;
+  position: relative;
+  text-align: center;
+}
+
+article {
+    float: left;
+    padding: 20px;
+    width: 100%;
+    background-color: #f1f1f1;
+    height: 750px; /* only for demonstration, should be removed */
+    text-align: center;
+  }
+
+  div.form{
+      text-align: center;
+  }
+
+.sidenav a {
+    color:black;
+    padding: 16px;
+    text-decoration: none;
+    display: block;
+    width: 20%;
+    background-color: #add8e6;
+}
+.sidenav a:hover {
+    background-color: #ddd;
+    color: red;
+}

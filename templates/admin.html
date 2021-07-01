@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block content %}
+<head>
+  <style>
+     article{
+          background-color:lightskyblue;
+          background-attachment: fixed;
+     }
+     .container{
+
+      width:300px;
+      height:300px;
+      margin:0 auto;
+
+     }
+     .input-field {
+      margin-bottom: 1.5rem;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<article>
+
+  <div class="container">
+    <h2>ADMIN SIGNUP</h2><br><br>
+    <form action="/register/" method="POST">
+      {% csrf_token %}
+      <input class="input-field" type="text" name="fname" placeholder="First Name" required="required"/><br>
+      <input class="input-field" type="text" name="lname" placeholder="Last Name" required="required"/><br>
+      <input class="input-field" type="text" name="email" placeholder="EmailId" required="required"/><br>
+      <input class="input-field" name="password" placeholder="Password" id="password" type="password" required="required" onkeyup='check();' /><br>
+      <input class="input-field" type="password" placeholder="Confirm Password" name="confirm_password" id="confirm_password" required="required"  onkeyup='check();' /> 
+      <span id='message'></span><br><br>
+      <button class="btn btn-dark">REGISTER</button><br><br>
+    </form>
+    <p>*If you already registered go to login</p>
+    <form action="/login/" method="GET">
+      {% csrf_token %}
+      <button class="btn btn-dark">LOGIN</button>
+    </form>
+  </div>
+</article>
+<script>
+  var check = function() {
+    if (document.getElementById('password').value ==
+         document.getElementById('confirm_password').value) {
+         document.getElementById('message').style.color = 'green';
+         document.getElementById('message').innerHTML = 'matching';
+    } else {
+         document.getElementById('message').style.color = 'red';
+         document.getElementById('message').innerHTML = 'not matching';
+    }
+  }
+</script>
+{% endblock %}
