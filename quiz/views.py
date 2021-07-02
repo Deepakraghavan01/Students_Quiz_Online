@@ -8,7 +8,8 @@ from bson import Binary, Code
 from bson.json_util import dumps# Create your views here.
 import time
 
-myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+
+myclient = pymongo.MongoClient("mongodb+srv://project1:project1@cluster0.ahn2s.mongodb.net/Quiz?retryWrites=true&w=majority")
 mydb = myclient['Quiz']
 admin_details = mydb["Admin_det"]
 questions = mydb["questions"]
