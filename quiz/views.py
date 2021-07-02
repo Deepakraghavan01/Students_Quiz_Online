@@ -29,7 +29,7 @@ def signup(request):
      email = request.POST.get('email')
      password = request.POST.get('password')
      mydict = { "fname": fname, "lname": lname,"email":email,"password":password,}
-     admin.insert_one(mydict)
+     admin_details.insert_one(mydict)
      return render(request,'admin.html')
 def login(request):
      if request.method == 'GET':
@@ -40,7 +40,7 @@ def login(request):
           dbRecord = admin_details.find_one({ "email" : email})
 
           if(dbRecord and (password==dbRecord['password'])):
-               return redirect('/dashboard')
+               return redirect('/dashboard/')
           else:
                context={
                     "error":"Invalid Login"
