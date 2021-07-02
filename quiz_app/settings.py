@@ -88,12 +88,15 @@ DATABASES = {
 }
 '''
 DATABASES = {
-      'default': {
-          'ENGINE': 'djongo',
-          'NAME': 'Quiz',
-      }
-  }
-
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'Quiz',
+        'CLIENT': {
+           'host': 'mongodb+srv://project1:project1@cluster0.ahn2s.mongodb.net/Quiz?retryWrites=true&w=majority',
+        }
+    }
+}
+#mongodb+srv://project1:project1@cluster0.ahn2s.mongodb.net/Quiz?retryWrites=true&w=majority
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
