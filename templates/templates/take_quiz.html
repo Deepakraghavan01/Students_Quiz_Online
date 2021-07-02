@@ -1,0 +1,88 @@
+{% extends 'student_layout.html' %}
+{% block content %}
+<head>
+  <style>
+    .success{
+      width: 200px;
+      background: green;
+      border-radius: 5px;
+      text-align: center;
+    }
+    .error{
+      width: 200px;
+      background: red;
+      border-radius: 5px;
+      text-align: center;
+    }
+  </style>
+</head>
+{% load static %}
+<div class="container">
+    <h2>{{quiz_detail_from_db.quiz_name}}</h2>
+    <form action="/submit_quiz/">
+      {% for question_obj in quiz_detail_from_db.questions %}
+        <div id="question-{{forloop.counter}}" class="questionsList {% if forloop.counter == 1  %}show {% else %} hide{% endif %}">
+            <h4>{{question_obj.question}}</h4>
+            <input class="answerOption" type="radio"  name="option" value="{{question_obj.option1}}">
+            <label for="{{question_obj.option1}}">{{question_obj.option1}}</label><br>
+            <input class="answerOption" type="radio"  name="option" value="{{question_obj.option2}}">
+            <label for="{{question_obj.option1}}">{{question_obj.option2}}</label><br>
+            <input class="answerOption" type="radio"  name="option" value="{{question_obj.option3}}">
+            <label for="{{question_obj.option1}}">{{question_obj.option3}}</label><br>
+            <input class="answerOption" type="radio"  name="option" value="{{question_obj.option4}}">
+            <label for="{{question_obj.option1}}">{{question_obj.option4}}</label><br>
+            <p id="answer-{{forloop.counter}}"></p>
+        </div>
+      {% endfor %}
+      <button id="submitAndPrevious">Previous</button>
+      <button id="submitAndNext">Next</button>
+      <button id="submitButton" type="submit">Submit Quiz</button>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+      var nextButton = $('#submitAndNext'); //Add button selector
+      var previousButton = $('#submitAndPrevious'); //Add button selector
+      var quizDetails = JSON.parse("{{quiz_details|escapejs}}");
+      var quizQuestions = quizDetails.questions;
+      var questionNumber = 1; 
+      
+      $(nextButton).click(function(event){
+          //Check maximum number of input fields
+          if(questionNumber < quizQuestions.length){
+            questionNumber++;
+            $(".questionsList").removeClass('show').addClass("hide");
+            $("#question-"+questionNumber).addClass('show').removeClass('hide');
+          }
+          
+          event.preventDefault();
+      });
+      $(previousButton).click(function(){
+          //Check maximum number of input fields
+          if(questionNumber -1 >=1){
+            questionNumber--;
+            $(".questionsList").removeClass('show').addClass("hide");
+            $("#question-"+questionNumber).addClass('show').removeClass('hide');
+          }
+          event.preventDefault();
+
+      });
+      $(".answerOption").click(function(event){
+          //Check maximum number of input fields
+          var x = quizQuestions[questionNumber-1]
+          if(event.target.value == x['answer']){
+            document.getElementById("answer-"+questionNumber).innerHTML = "Answer is Correct"
+            $("#answer-"+questionNumber).addClass('success');
+          } else{
+            document.getElementById("answer-"+questionNumber).innerHTML = "Wrong Answer! <br/> Answer is:" +x['answer']
+            $("#answer-"+questionNumber).addClass('error');
+          }
+          $("#answer-"+questionNumber).removeClass('hide').addClass('show');
+          $("#question-"+questionNumber+" :input").attr("disabled", true);
+      });
+  });
+</script>
+
+{% endblock %}
