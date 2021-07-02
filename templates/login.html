@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+{% block content %}
+<head>
+  <style>
+    article{
+          background-color:lightskyblue;
+          background-attachment: fixed;
+     }
+    .container{
+
+      width:300px;
+      height:300px;
+      margin:0 auto;
+    }
+    .error{
+      color: red;
+    }
+    .input-field {
+      margin-bottom: 1.5rem;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<article>
+  <div class="container">
+    <h2>ADMIN LOGIN</h2><br><br>
+    <form action="/login/" method="POST">
+      {% csrf_token %}
+        <input type="text" class="input-field" name="email" required="required" placeholder="EmailId"/>
+        <input name="password" class="input-field" id="password" type="password" required="required" placeholder="Password"/>
+        {% if error %}
+              <p class="error">{{error}}</p>
+          {% endif %}
+        <button class="btn btn-dark">LOGIN</button>
+    </form>
+
+  </div>
+</article>
+{% endblock %}

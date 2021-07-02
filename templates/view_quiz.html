@@ -1,0 +1,55 @@
+{% extends 'admin_layout.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  
+    <style media="screen">
+      a:link {
+        text-decoration: none;
+      }
+  
+      h6 {
+        text-align: center;
+      }
+  
+      .row {
+        margin: 100px;
+      }
+    </style>
+</head>
+
+<div class="container p-5">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h6 class="panel-title">QUIZ LIST</h6>
+      </div>
+      <table class="table table-hover" id="dev-table">
+        <form action="/view_question" method="POST">
+          <tr>
+  
+            <th>Quiz name</th>
+            <th>Subject</th>
+            <th>View_questions</th>
+            <th>Delete</th>
+            
+          </tr>
+        </thead>
+        {% for quiz in val %}
+        <tr>
+  
+          <td>{{quiz.quiz_name}}</td>
+          <td>{{quiz.subject}}</td>
+        
+          <td><a class="btn btn-default btn-sm" href="/view_question/?id={{quiz.id}}"><span class=" glyphicon glyphicon-eye-open"></span></a></td>
+          <td><a class="btn btn-danger btn-xs" href="/after_delete_quiz/dashboard/?id={{quiz.id}}"><span class="glyphicon glyphicon-trash"></span></a></td>
+        </tr>
+        {% endfor %}
+      </form>
+      </table>
+    </div>
+  </div>
+{% endblock %}

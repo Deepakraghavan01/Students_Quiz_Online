@@ -1,0 +1,124 @@
+{% extends 'student_layout.html' %}
+{% block content %}
+<head>
+  <style>
+    .success{
+      width: 200px;
+      background: green;
+      border-radius: 5px;
+      text-align: center;
+    }
+    .error{
+      width: 200px;
+      background: red;
+      border-radius: 5px;
+      text-align: center;
+    }
+    input[type='radio']:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: white;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid #ffa500;
+    }
+    input[type='radio']:disabled:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: white;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid #c9c9c9;
+    }
+    input[type='radio']:checked:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #ffa500;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid #ffa500;
+    }
+    a.question-buttons {
+      background-color: #f0a61d;
+      color: white;
+      padding: 1em 1.5em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+{% load static %}
+<div class="container">
+    <h2>{{quiz_name}}</h2>
+    <form id="questionForm" action="" method="POST">
+      {% csrf_token %}
+        <div id="question-div" class="questionsList">
+            <h4>{{question_obj.question}}</h4>
+            <input class="answerOption" type="radio"  name="option" value="{{question_obj.option1}}">
+            <label for="{{question_obj.option1}}">{{question_obj.option1}}</label><br>
+            <input class="answerOption" type="radio"  name="option" value="{{question_obj.option2}}">
+            <label for="{{question_obj.option1}}">{{question_obj.option2}}</label><br>
+            <input class="answerOption" type="radio"  name="option" value="{{question_obj.option3}}">
+            <label for="{{question_obj.option1}}">{{question_obj.option3}}</label><br>
+            <input class="answerOption" type="radio"  name="option" value="{{question_obj.option4}}">
+            <label for="{{question_obj.option1}}">{{question_obj.option4}}</label><br>
+            {% if submitted_answer %} 
+              <p id="answer" class="{% if isCorrect == True  %} success {% else %} error{% endif %}">
+                {{submitted_answer}} is {% if isCorrect == True  %} Correct {% else %} Wrong! <br> Correct Answer is {{answer}}{% endif %}
+              </p>
+            {% endif %}
+        </div>
+        <a class="question-buttons" href="/show_question_for_quiz/?id={{quiz_id}}&student_quiz_id={{student_quiz_id}}&question_id={{question_number|add:-1}}">Previous</a>
+        <a class="question-buttons" href="/show_question_for_quiz/?id={{quiz_id}}&student_quiz_id={{student_quiz_id}}&question_id={{question_number|add:1}}">Next</a>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+      var submittedAnswer = "{{submitted_answer}}";
+      console.log("{{quiz_id}}")
+      if(submittedAnswer){
+        $("#question-div :input").attr("disabled", true);
+        $( ".answerOption" ).each(function( index ) {
+          if($( this ).val() == submittedAnswer){
+            $(this).prop("checked", true)
+          }
+        });
+      }
+      $(".answerOption").click(function(event){
+        $("#questionForm").attr('action', '/submit_quiz/{{quiz_id}}/{{student_quiz_id}}/{{question_number}}');
+        $(this).closest("form").submit();
+      });
+
+      $("#Next").click(function(event){
+        var questionNumber = Number("{{question_number}}") + 1;
+        $("#questionForm").attr('action', '/show_question_for_quiz?id={{quiz_id}}&student_quiz_id={{student_quiz_id}}&question_id='+questionNumber);
+        $(this).closest("form").submit();
+      });
+
+      $("#Next").click(function(event){
+        var questionNumber = Number("{{question_number}}") - 1;
+        $("#questionForm").attr('action', '/show_question_for_quiz?id={{quiz_id}}&student_quiz_id={{student_quiz_id}}&question_id='+questionNumber);
+        $(this).closest("form").submit();
+      });
+     
+  });
+</script>
+
+{% endblock %}
